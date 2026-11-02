@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>FOCUSLY — Focus Better. Achieve More.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0B0D10;
+            --card: #15191F;
+            --tx: #EEF0F5;
+            --mut: #a3abb9;
+            --bd: #2a303b;
+            --ac: #9b9dff;
+            --ok: #6ee7b7;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            color-scheme: dark
+        }
+
+        :root[data-theme=light] {
+            --bg: #FAF7F2;
+            --card: #fff;
+            --tx: #1d2027;
+            --mut: #5d6572;
+            --bd: #e6dfd3;
+            color-scheme: light
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--tx);
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -20% -10% auto auto;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, color-mix(in srgb, var(--ac) 22%, transparent), transparent 65%);
+            pointer-events: none;
+            animation: fl 14s ease-in-out infinite alternate
+        }
+
+        @keyframes fl {
+            to {
+                transform: translate(-8vw, 6vh)
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+
+        #app {
+            display: flex;
+            min-height: 100vh;
+            position: relative
+        }
+
+        nav {
+            width: 84px;
+            padding: 18px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border-right: 1px solid var(--bd);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background: color-mix(in srgb, var(--bg) 80%, transparent);
+            backdrop-filter: blur(16px);
+            z-index: 5
+        }
+
+        nav b {
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: .05em;
+            font-size: 11px;
+            margin-bottom: 10px;
+            color: var(--ac)
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+            color: inherit
+        }
+
+        .nv {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            font-size: 11px;
+            padding: 10px 4px;
+            border-radius: 14px;
+            border: 0;
+            background: none;
+            color: var(--mut);
+            cursor: pointer;
+            min-height: 48px
+        }
+
+        .nv span {
+            font-size: 19px
+        }
+
+        .nv.on {
+            background: var(--card);
+            color: var(--tx);
+            box-shadow: inset 0 0 0 1px var(--ac)
+        }
+
+        main {
+            flex: 1;
+            min-width: 0;
+            padding: 28px clamp(16px, 4vw, 48px) 48px;
+            max-width: 1200px;
+            margin: 0 auto
+        }
+
+        h1 {
+            font-size: clamp(24px, 4vw, 34px);
+            margin: 0 0 4px
+        }
+
+        h2 {
+            font-size: 15px;
+            margin: 0 0 12px;
+            color: var(--mut);
+            font-weight: 600
+        }
+
+        .sub {
+            color: var(--mut);
+            margin: 0 0 22px
+        }
+
+        .g {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr))
+        }
+
+        .c {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 10px 30px #0003;
+            min-width: 0;
+            animation: in .4s both
+        }
+
+        @keyframes in {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+        }
+
+        .big {
+            font-size: clamp(40px, 9vw, 84px);
+            font-weight: 800;
+            letter-spacing: -.03em;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.05;
+            background: linear-gradient(120deg, var(--tx), var(--ac));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .mid {
+            font-size: clamp(30px, 6vw, 46px);
+            font-weight: 800;
+            font-variant-numeric: tabular-nums
+        }
+
+        .btn {
+            border: 1px solid var(--bd);
+            background: transparent;
+            border-radius: 12px;
+            padding: 10px 16px;
+            min-height: 44px;
+            cursor: pointer;
+            transition: .15s
+        }
+
+        .btn:hover {
+            border-color: var(--ac)
+        }
+
+        .btn.p {
+            background: var(--ac);
+            color: #0B0D10;
+            border-color: var(--ac);
+            font-weight: 600
+        }
+
+        .btn.on {
+            box-shadow: inset 0 0 0 2px var(--ac)
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center
+        }
+
+        input,
+        select,
+        textarea {
+            background: var(--bg);
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            padding: 10px 12px;
+            min-height: 44px;
+            max-width: 100%
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            resize: vertical
+        }
+
+        input[type=number] {
+            width: 76px
+        }
+
+        input[type=range] {
+            padding: 0;
+            accent-color: var(--ac)
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--ac);
+            outline-offset: 2px
+        }
+
+        .k {
+            font-size: 30px;
+            font-weight: 800
+        }
+
+        .mut {
+            color: var(--mut);
+            font-size: 13px
+        }
+
+        .bar {
+            height: 8px;
+            border-radius: 9px;
+            background: var(--bd);
+            overflow: hidden
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            background: var(--ac);
+            transition: width .5s
+        }
+
+        .t {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--bd);
+            flex-wrap: wrap
+        }
+
+        .t.d .tt {
+            text-decoration: line-through;
+            opacity: .5
+        }
+
+        .tt {
+            flex: 1;
+            min-width: 120px
+        }
+
+        .tag {
+            font-size: 11px;
+            border: 1px solid var(--bd);
+            border-radius: 20px;
+            padding: 2px 9px;
+            color: var(--mut)
+        }
+
+        .tag.high {
+            color: #fca5a5;
+            border-color: #fca5a5
+        }
+
+        .tag.med {
+            color: #fcd34d;
+            border-color: #fcd34d
+        }
+
+        .sw {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--bd);
+            cursor: pointer
+        }
+
+        .ov {
+            position: fixed;
+            inset: 0;
+            background: #000a;
+            display: grid;
+            place-items: center;
+            z-index: 20;
+            padding: 16px
+        }
+
+        .fs:fullscreen {
+            display: grid;
+            place-content: center;
+            text-align: center;
+            background: var(--bg)
+        }
+
+        @media(max-width:700px) {
+            #app {
+                flex-direction: column
+            }
+
+            nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                top: auto;
+                width: auto;
+                height: auto;
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+                border-right: 0;
+                border-top: 1px solid var(--bd)
+            }
+
+            nav b {
+                display: none
+            }
+
+            .nv {
+                min-width: 62px
+            }
+
+            main {
+                padding-bottom: 100px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <nav id="nav" aria-label="Main"></nav>
+        <main id="main" tabindex="-1"></main>
+    </div>
+    <div id="ob"></div>
+    <script>
+        const $ = i => document.getElementById(i), K = 'focusly';
+        let S = { tasks: [], sess: [], notes: '', journal: '', acc: '#9b9dff', theme: 'dark', h24: false, secs: true, focus: 25, short: 5, long: 15, goal: 4, cities: ['Asia/Kolkata', 'Europe/London', 'America/New_York', 'Asia/Tokyo'], subj: 'General', name: '', seen: false };
+        try { Object.assign(S, JSON.parse(localStorage.getItem(K) || '{}')) } catch (e) { }
+        const save = () => { try { localStorage.setItem(K, JSON.stringify(S)) } catch (e) { } };
+        const pad = n => String(n).padStart(2, '0'), esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const day = (d = new Date()) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+        const ms = t => { t = Math.max(0, t); return pad(Math.floor(t / 60000)) + ':' + pad(Math.floor(t / 1000) % 60) + '.' + pad(Math.floor(t / 10) % 100) };
+        const hms = t => { t = Math.ceil(Math.max(0, t) / 1000); return pad(Math.floor(t / 3600)) + ':' + pad(Math.floor(t / 60) % 60) + ':' + pad(t % 60) };
+        const clk = tz => { const o = { hour: '2-digit', minute: '2-digit', hourCycle: S.h24 ? 'h23' : 'h12' }; if (S.secs) o.second = '2-digit'; if (tz) o.timeZone = tz; return new Date().toLocaleTimeString('en-US', o) };
+        const QS = ['Small steps every day add up to big results.', 'Discipline is choosing what you want most over what you want now.', 'You don’t have to be perfect, just consistent.', 'Focus on progress, not perfection.', 'The best time to study is now.', 'Deep work today, freedom tomorrow.', 'Done is better than perfect.'];
+        const NAV = [['dash', '◎', 'Home'], ['time', '◷', 'Time'], ['focus', '◉', 'Focus'], ['tasks', '☑', 'Tasks'], ['stats', '▤', 'Stats'], ['amb', '♫', 'Ambient'], ['notes', '✎', 'Notes'], ['set', '⚙', 'Settings']];
+        let V = 'dash', T = { q: '', f: 'all' };
+        const today = () => S.sess.filter(s => s.d == day()), tmin = a => a.reduce((x, s) => x + s.min, 0);
+        let audio; const ctx = () => audio || (audio = new (window.AudioContext || window.webkitAudioContext)());
+        function beep() { try { const c = ctx(), n = c.currentTime;[0, .3, .6].forEach(o => { const s = c.createOscillator(), g = c.createGain(); s.frequency.value = 880; g.gain.setValueAtTime(.2, n + o); g.gain.exponentialRampToValueAtTime(.001, n + o + .25); s.connect(g).connect(c.destination); s.start(n + o); s.stop(n + o + .26) }) } catch (e) { } }
+        function note(t) { try { if ('Notification' in window && Notification.permission == 'granted') new Notification('FOCUSLY', { body: t }) } catch (e) { } }
+        /* timers */
+        const SW = { run: false, t0: 0, acc: 0, laps: [] }, CD = { run: false, end: 0, left: 3e5 }, P = { m: 'focus', run: false, end: 0, left: S.focus * 6e4 };
+        const dur = m => (m == 'focus' ? S.focus : m == 'short' ? S.short : S.long) * 6e4, swT = () => SW.acc + (SW.run ? performance.now() - SW.t0 : 0);
+        function pfin() { P.run = false; if (P.m == 'focus') { S.sess.push({ d: day(), min: S.focus, s: S.subj || 'General', t: Date.now() }); save(); P.m = today().length % 4 == 0 ? 'long' : 'short' } else P.m = 'focus'; P.left = dur(P.m); beep(); note(P.m == 'focus' ? 'Break over — time to focus!' : 'Session complete. Take a break!'); render() }
+        function tick() {
+            const n = Date.now(), set = (i, v) => { const e = $(i); if (e && e.textContent !== v) e.textContent = v };
+            set('clk', clk()); set('dt', new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }));
+            S.cities.forEach((c, i) => set('w' + i, clk(c))); set('sw', ms(swT()));
+            if (CD.run) { CD.left = CD.end - n; if (CD.left <= 0) { CD.run = false; CD.left = 0; beep(); note('Countdown finished'); if (V == 'time') render() } } set('cd', hms(CD.left));
+            if (P.run) { P.left = P.end - n; if (P.left <= 0) pfin() }
+            set('pt', pad(Math.floor(Math.ceil(P.left / 1000) / 60)) + ':' + pad(Math.ceil(P.left / 1000) % 60));
+            const r = $('ring'); if (r) r.style.strokeDashoffset = 565 * (1 - P.left / dur(P.m)); document.title = P.run ? $('pt')?.textContent + ' · FOCUSLY' : 'FOCUSLY'
+        }
+        /* ambient */
+        const AM = { rain: ['Rain', 'highpass', 1000], fire: ['Fireplace', 'lowpass', 600, 1], white: ['White noise'], ocean: ['Ocean waves', 'lowpass', 450, 1, 1], forest: ['Forest', 'bandpass', 2600] }; let A = { k: null, vol: .5 };
+        function amb(k) {
+            stopA(); if (A.k == k) { A.k = null; return render() } const c = ctx(); c.resume(); const d = AM[k], b = c.createBuffer(1, c.sampleRate * 3, c.sampleRate), a = b.getChannelData(0); let l = 0;
+            for (let i = 0; i < a.length; i++) { const w = Math.random() * 2 - 1; if (d[3]) { l = (l + .02 * w) / 1.02; a[i] = l * 3.5 } else a[i] = w * .5 }
+            const s = c.createBufferSource(); s.buffer = b; s.loop = true; let n = s; if (d[1]) { const f = c.createBiquadFilter(); f.type = d[1]; f.frequency.value = d[2]; n.connect(f); n = f }
+            const m = c.createGain(); m.gain.value = d[4] ? .6 : 1; n.connect(m); if (d[4]) { const o = c.createOscillator(), g = c.createGain(); o.frequency.value = .12; g.gain.value = .4; o.connect(g).connect(m.gain); o.start(); A.o = o }
+            A.g = c.createGain(); A.g.gain.value = A.vol; m.connect(A.g).connect(c.destination); s.start(); A.s = s; A.k = k; render()
+        }
+        function stopA() { try { A.s && A.s.stop(); A.o && A.o.stop() } catch (e) { } A.s = A.o = null }
+        /* views */
+        const card = (h, x = '') => `<section class="c" ${x}>${h}</section>`;
+        const stat = (l, v) => card(`<h2>${l}</h2><div class="k">${v}</div>`);
+        const pending = () => S.tasks.filter(t => !t.done);
+        function streak() { let n = 0, d = new Date(); const ds = new Set(S.sess.map(s => s.d)); if (!ds.has(day(d))) d.setDate(d.getDate() - 1); while (ds.has(day(d))) { n++; d.setDate(d.getDate() - 1) } return n }
+        const V_ = {
+            dash() {
+                const h = new Date().getHours(), g = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening', tp = today().length, done = S.tasks.filter(t => t.done).length, up = pending().sort((a, b) => (a.due || '9') < (b.due || '9') ? -1 : 1).slice(0, 4);
+                return `<h1>${g}${S.name ? ', ' + esc(S.name) : ''} 👋</h1><p class="sub" id="dt"></p>
+ <div class="g">${card(`<h2>Now</h2><div class="big" id="clk"></div><p class="mut">“${QS[new Date().getDate() % QS.length]}”</p>`, 'style="grid-column:1/-1"')}
+ ${stat('Focused today', tmin(today()) + ' min')}${stat('Total focused hours', (tmin(S.sess) / 60).toFixed(1) + ' h')}${stat('Tasks completed', done + ' / ' + S.tasks.length)}${stat('Day streak', '🔥 ' + streak())}
+ ${card(`<h2>Daily goal · ${tp}/${S.goal} Pomodoros</h2><div class="bar"><i style="width:${Math.min(100, tp / S.goal * 100)}%"></i></div><p class="row"><button class="btn p" data-a="go" data-v="focus">Start focusing</button><button class="btn" data-a="go" data-v="tasks">Add task</button></p>`)}
+ ${card(`<h2>Upcoming</h2>${up.length ? up.map(t => `<div class="t"><span class="tt">${esc(t.text)}</span><span class="tag">${t.due || 'no date'}</span></div>`).join('') : '<p class="mut">Nothing pending. Add a task to plan your session.</p>'}`)}</div>`
+            },
+            time() {
+                return `<h1>Time tools</h1><p class="sub">Clock, stopwatch, countdown and world clock.</p><div class="g">
+ ${card(`<h2>Clock</h2><div class="mid" id="clk"></div><p class="mut" id="dt"></p><div class="row"><button class="btn" data-a="h24">${S.h24 ? '24-hour' : '12-hour'}</button><button class="btn" data-a="secs">Seconds: ${S.secs ? 'on' : 'off'}</button><button class="btn" data-a="full" data-v="fsc">Full screen</button></div>`, 'id="fsc" class="c fs"')}
+ ${card(`<h2>Stopwatch</h2><div class="mid" id="sw"></div><div class="row" style="margin:12px 0"><button class="btn p" data-a="swgo">${SW.run ? 'Pause' : swT() ? 'Resume' : 'Start'}</button><button class="btn" data-a="lap" ${SW.run ? '' : 'disabled'}>Lap</button><button class="btn" data-a="swrs">Reset</button><button class="btn" data-a="swcp" ${SW.laps.length ? '' : 'disabled'}>Copy laps</button></div>${SW.laps.length ? SW.laps.map((l, i) => `<div class="t"><span>Lap ${SW.laps.length - i}</span><span class="tt">${ms(l)}</span></div>`).reverse().join('') : '<p class="mut">No laps yet.</p>'}`)}
+ ${card(`<h2>Countdown</h2><div class="mid" id="cd"></div><div class="row" style="margin:12px 0"><input type="number" id="ch" min="0" max="99" value="0" aria-label="Hours"><input type="number" id="cm" min="0" max="59" value="5" aria-label="Minutes"><input type="number" id="cs" min="0" max="59" value="0" aria-label="Seconds"></div><div class="row"><button class="btn p" data-a="cdgo">${CD.run ? 'Pause' : 'Start'}</button><button class="btn" data-a="cdrs">Reset</button></div><div class="row" style="margin-top:10px">${[1, 5, 10, 25].map(m => `<button class="btn" data-a="cdpre" data-v="${m}">${m} min</button>`).join('')}</div>`)}
+ ${card(`<h2>World clock</h2>${S.cities.map((c, i) => `<div class="t"><span class="tt">${c.split('/').pop().replace(/_/g, ' ')}</span><b id="w${i}"></b><button class="btn" data-a="rmc" data-v="${i}" aria-label="Remove ${c}">✕</button></div>`).join('') || '<p class="mut">No cities.</p>'}<div class="row" style="margin-top:12px"><select id="tz" aria-label="City">${['America/Los_Angeles', 'America/Chicago', 'America/Sao_Paulo', 'Europe/Paris', 'Europe/Berlin', 'Africa/Cairo', 'Asia/Dubai', 'Asia/Singapore', 'Asia/Shanghai', 'Australia/Sydney', 'Pacific/Auckland'].map(z => `<option>${z}</option>`).join('')}</select><button class="btn" data-a="addc">Add</button></div>`)}</div>`
+            },
+            focus() {
+                const C = 565.5; return `<h1>Focus</h1><p class="sub">${today().length} Pomodoro${today().length == 1 ? '' : 's'} completed today</p><div class="g">
+ ${card(`<div style="text-align:center"><div class="row" style="justify-content:center">${[['focus', 'Focus'], ['short', 'Short break'], ['long', 'Long break']].map(([m, l]) => `<button class="btn ${P.m == m ? 'on' : ''}" data-a="pm" data-v="${m}">${l}</button>`).join('')}</div>
+ <div style="position:relative;width:min(100%,260px);margin:18px auto"><svg viewBox="0 0 200 200" style="width:100%;transform:rotate(-90deg)" role="img" aria-label="Timer progress"><circle cx="100" cy="100" r="90" fill="none" stroke="var(--bd)" stroke-width="8"/><circle id="ring" cx="100" cy="100" r="90" fill="none" stroke="var(--ac)" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C}" style="transition:stroke-dashoffset .3s linear"/></svg><div class="mid" id="pt" style="position:absolute;inset:0;display:grid;place-items:center" aria-live="off"></div></div>
+ <div class="row" style="justify-content:center"><button class="btn p" data-a="pgo">${P.run ? 'Pause' : 'Start'}</button><button class="btn" data-a="pskip">Skip</button><button class="btn" data-a="prs">Reset</button><button class="btn" data-a="full" data-v="fsp">Full screen</button></div></div>`, 'id="fsp" class="c fs"')}
+ ${card(`<h2>Session</h2><label class="mut">Subject<br><input id="subj" value="${esc(S.subj)}" data-k="subj" style="width:100%"></label><h2 style="margin-top:18px">Durations (minutes)</h2><div class="row">${[['focus', 'Focus'], ['short', 'Short'], ['long', 'Long']].map(([k, l]) => `<label class="mut">${l}<br><input type="number" min="1" max="180" value="${S[k]}" data-k="${k}"></label>`).join('')}</div>`)}</div>`
+            },
+            tasks() {
+                return `<h1>Tasks & planner</h1><p class="sub">${pending().length} pending · ${S.tasks.length - pending().length} done</p>
+ ${card(`<div class="row"><input id="tx" placeholder="What do you need to study?" aria-label="Task" style="flex:1;min-width:160px"><select id="tp" aria-label="Priority"><option value="low">Low</option><option value="med" selected>Medium</option><option value="high">High</option></select><input id="td" type="date" aria-label="Due date"><input id="tc" placeholder="Subject" aria-label="Subject" style="width:130px"><button class="btn p" data-a="addt">${T.edit ? 'Save' : 'Add'}</button></div>
+ <div class="row" style="margin:14px 0"><input id="tq" type="search" placeholder="Search…" aria-label="Search tasks" value="${esc(T.q)}">${['all', 'pending', 'done'].map(f => `<button class="btn ${T.f == f ? 'on' : ''}" data-a="flt" data-v="${f}">${f}</button>`).join('')}</div><div id="tl">${tlist()}</div>`)}`
+            },
+            stats() {
+                const days = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - 6 + i); const k = day(d); return [d.toLocaleDateString('en-US', { weekday: 'short' }), tmin(S.sess.filter(s => s.d == k))] }), mx = Math.max(60, ...days.map(d => d[1])), by = {}; S.sess.forEach(s => by[s.s] = (by[s.s] || 0) + s.min);
+                const wk = days.reduce((a, d) => a + d[1], 0), sc = Math.min(100, Math.round(tmin(today()) / (S.goal * S.focus) * 100));
+                return `<h1>Analytics</h1><p class="sub">Your focus, at a glance.</p><div class="g">${stat('Productivity score today', sc + '%')}${stat('This week', (wk / 60).toFixed(1) + ' h')}${stat('Pomodoros total', S.sess.length)}${stat('Streak', '🔥 ' + streak() + ' days')}
+ ${card(`<h2>Last 7 days (minutes)</h2><svg viewBox="0 0 280 150" style="width:100%" role="img" aria-label="Weekly focus chart">${days.map((d, i) => { const h = d[1] / mx * 100; return `<rect x="${i * 40 + 8}" y="${115 - h}" width="26" height="${h}" rx="7" fill="var(--ac)" opacity=".85"/><text x="${i * 40 + 21}" y="135" font-size="10" text-anchor="middle" fill="var(--mut)">${d[0]}</text><text x="${i * 40 + 21}" y="${110 - h}" font-size="9" text-anchor="middle" fill="var(--mut)">${d[1] || ''}</text>` }).join('')}</svg>`, 'style="grid-column:1/-1"')}
+ ${card(`<h2>By subject</h2>${Object.keys(by).length ? Object.entries(by).map(([s, m]) => `<p class="mut" style="margin:10px 0 4px">${esc(s)} · ${m} min</p><div class="bar"><i style="width:${m / Math.max(...Object.values(by)) * 100}%"></i></div>`).join('') : '<p class="mut">Complete a Pomodoro to see subject data.</p>'}`)}</div>`
+            },
+            amb() { return `<h1>Ambient space</h1><p class="sub">Generated in your browser — no downloads.</p>${card(`<div class="row">${Object.entries(AM).map(([k, v]) => `<button class="btn ${A.k == k ? 'p' : ''}" data-a="amb" data-v="${k}" aria-pressed="${A.k == k}">${A.k == k ? '⏸ ' : '▶ '}${v[0]}</button>`).join('')}</div><p><label class="mut">Volume<br><input type="range" min="0" max="1" step=".01" value="${A.vol}" id="vol" aria-label="Volume"></label></p>`)}` },
+            notes() {
+                return `<h1>Notes & tools</h1><p class="sub">Saved automatically on this device.</p><div class="g">${card(`<h2>Quick notes</h2><textarea data-k="notes" aria-label="Quick notes">${esc(S.notes)}</textarea>`)}${card(`<h2>Daily journal · ${day()}</h2><textarea data-k="journal" aria-label="Journal">${esc(S.journal)}</textarea>`)}
+ ${card(`<h2>Calculator</h2><div class="row"><input id="ce" placeholder="e.g. (12+8)*3/4" aria-label="Expression" style="flex:1"><button class="btn p" data-a="calc">=</button></div><div class="mid" id="cr" style="margin-top:10px" aria-live="polite"></div>`)}</div>`
+            },
+            set() {
+                return `<h1>Settings</h1><p class="sub">Make it yours.</p><div class="g">${card(`<h2>Appearance</h2><div class="row"><button class="btn" data-a="theme">${S.theme == 'dark' ? '☾ Dark' : '☀ Light'} — switch</button></div><div class="row" style="margin-top:14px">${['#9b9dff', '#60a5fa', '#c084fc', '#6ee7b7', '#f9a8d4'].map(c => `<button class="sw" style="background:${c}" data-a="acc" data-v="${c}" aria-label="Accent ${c}"></button>`).join('')}</div>`)}
+ ${card(`<h2>Preferences</h2><div class="row"><label class="mut">Your name<br><input value="${esc(S.name)}" data-k="name"></label><label class="mut">Daily Pomodoro goal<br><input type="number" min="1" max="20" value="${S.goal}" data-k="goal"></label></div><p class="row"><button class="btn" data-a="h24">Clock: ${S.h24 ? '24-hour' : '12-hour'}</button><button class="btn" data-a="notif">Enable notifications</button></p><p class="mut" id="nm">Shortcuts: 1–8 switch sections · Space starts/pauses the Pomodoro.</p>`)}
+ ${card(`<h2>Data</h2><div class="row"><button class="btn" data-a="csv">Copy history as CSV</button><button class="btn" data-a="bk">Copy backup</button></div><textarea id="rs" placeholder="Paste a backup here to restore" aria-label="Restore" style="margin-top:10px;min-height:80px"></textarea><div class="row" style="margin-top:8px"><button class="btn p" data-a="rst">Restore</button><button class="btn" data-a="wipe">Erase all data</button></div><p class="mut" id="dm" aria-live="polite"></p>`)}</div>`
+            }
+        };
+        function tlist() {
+            const l = S.tasks.filter(t => (T.f == 'all' || (T.f == 'done') == t.done) && t.text.toLowerCase().includes(T.q.toLowerCase()));
+            return l.length ? l.map(t => `<div class="t ${t.done ? 'd' : ''}"><input type="checkbox" ${t.done ? 'checked' : ''} data-a="tog" data-v="${t.id}" aria-label="Complete ${esc(t.text)}" style="min-height:24px;width:24px"><span class="tt">${esc(t.text)}</span><span class="tag ${t.p}">${t.p}</span>${t.c ? `<span class="tag">${esc(t.c)}</span>` : ''}${t.due ? `<span class="tag">${t.due}</span>` : ''}<button class="btn" data-a="edt" data-v="${t.id}">Edit</button><button class="btn" data-a="del" data-v="${t.id}" aria-label="Delete">✕</button></div>`).join('') : '<p class="mut">No tasks to show. Add one above to get started.</p>'
+        }
+        function render() {
+            document.documentElement.dataset.theme = S.theme; document.documentElement.style.setProperty('--ac', S.acc);
+            $('nav').innerHTML = '<b>FOCUSLY</b>' + NAV.map(n => `<button class="nv ${V == n[0] ? 'on' : ''}" data-a="go" data-v="${n[0]}" aria-label="${n[2]}" ${V == n[0] ? 'aria-current="page"' : ''}><span aria-hidden="true">${n[1]}</span>${n[2]}</button>`).join('');
+            $('main').innerHTML = V_[V](); tick()
+        }
+        const $v = e => e.dataset.v;
+        document.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (!b || b.type == 'checkbox') return; act(b.dataset.a, b.dataset.v, b) });
+        document.addEventListener('change', e => {
+            const t = e.target; if (t.dataset.a == 'tog') { const x = S.tasks.find(x => x.id == t.dataset.v); x.done = t.checked; save(); return render() }
+            if (t.dataset.k) { const k = t.dataset.k; S[k] = t.type == 'number' ? Math.max(1, +t.value || 1) : t.value; save(); if (['focus', 'short', 'long'].includes(k) && !P.run) { P.left = dur(P.m); tick() } }
+        });
+        document.addEventListener('input', e => { const t = e.target; if (t.id == 'vol') { A.vol = +t.value; if (A.g) A.g.gain.value = A.vol } else if (t.id == 'tq') { T.q = t.value; $('tl').innerHTML = tlist() } else if (t.dataset.k && t.tagName == 'TEXTAREA' || t.dataset.k == 'subj') { S[t.dataset.k] = t.value; save() } });
+        document.addEventListener('keydown', e => { if (/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)) return; if (/^[1-8]$/.test(e.key)) { V = NAV[e.key - 1][0]; render() } else if (e.key == ' ' && V == 'focus') { e.preventDefault(); act('pgo') } });
+        function act(a, v, b) {
+            const n = Date.now();
+            switch (a) {
+                case 'go': V = v; return render();
+                case 'h24': S.h24 = !S.h24; break; case 'secs': S.secs = !S.secs; break;
+                case 'full': try { $(v).requestFullscreen() } catch (x) { } return;
+                case 'swgo': if (SW.run) { SW.acc = swT(); SW.run = false } else { SW.t0 = performance.now(); SW.run = true } break;
+                case 'lap': SW.laps.push(swT()); break; case 'swrs': SW.run = false; SW.acc = 0; SW.laps = []; break;
+                case 'swcp': navigator.clipboard?.writeText(SW.laps.map((l, i) => 'Lap ' + (i + 1) + ': ' + ms(l)).join('\n')).catch(() => { }); b.textContent = 'Copied ✓'; return;
+                case 'cdgo': if (CD.run) { CD.run = false } else { if (!CD.left || CD.left <= 0) CD.left = ((+$('ch').value || 0) * 3600 + (+$('cm').value || 0) * 60 + (+$('cs').value || 0)) * 1000; if (CD.left > 0) { CD.end = n + CD.left; CD.run = true; ctx().resume() } } break;
+                case 'cdrs': CD.run = false; CD.left = ((+$('ch').value || 0) * 3600 + (+$('cm').value || 0) * 60 + (+$('cs').value || 0)) * 1000; break;
+                case 'cdpre': CD.run = false; CD.left = v * 6e4; $('ch').value = 0; $('cm').value = v; $('cs').value = 0; break;
+                case 'addc': if (!S.cities.includes($('tz').value)) S.cities.push($('tz').value); break; case 'rmc': S.cities.splice(v, 1); break;
+                case 'pm': P.run = false; P.m = v; P.left = dur(v); break;
+                case 'pgo': if (P.run) { P.run = false } else { P.end = n + P.left; P.run = true; ctx().resume() } break;
+                case 'pskip': P.run = false; P.m = P.m == 'focus' ? 'short' : 'focus'; P.left = dur(P.m); break; case 'prs': P.run = false; P.left = dur(P.m); break;
+                case 'addt': { const t = $('tx').value.trim(); if (!t) return $('tx').focus(); const o = { text: t, p: $('tp').value, due: $('td').value, c: $('tc').value.trim() }; if (T.edit) { Object.assign(S.tasks.find(x => x.id == T.edit), o); T.edit = 0 } else S.tasks.push({ id: n, done: false, ...o }); break }
+                case 'edt': { const x = S.tasks.find(x => x.id == v); T.edit = x.id; render(); $('tx').value = x.text; $('tp').value = x.p; $('td').value = x.due; $('tc').value = x.c || ''; $('tx').focus(); return }
+                case 'del': S.tasks = S.tasks.filter(x => x.id != v); break; case 'flt': T.f = v; break;
+                case 'theme': S.theme = S.theme == 'dark' ? 'light' : 'dark'; break; case 'acc': S.acc = v; break;
+                case 'amb': return amb(v);
+                case 'calc': { const s = $('ce').value; $('cr').textContent = /^[\d+\-*/().% ]+$/.test(s) ? (() => { try { return Function('return ' + s)() } catch (x) { return 'Error' } })() : 'Invalid'; return }
+                case 'notif': if ('Notification' in window) Notification.requestPermission().then(r => $('nm').textContent = 'Notifications: ' + r); else $('nm').textContent = 'Notifications are not supported here.'; return;
+                case 'csv': { const r = 'date,minutes,subject\n' + S.sess.map(s => [s.d, s.min, '"' + s.s.replace(/"/g, '""') + '"'].join(',')).join('\n'); navigator.clipboard?.writeText(r).then(() => $('dm').textContent = 'CSV copied to clipboard.', () => $('dm').textContent = 'Copy blocked by browser.'); return }
+                case 'bk': navigator.clipboard?.writeText(JSON.stringify(S)).then(() => $('dm').textContent = 'Backup copied. Paste it somewhere safe.', () => $('dm').textContent = 'Copy blocked by browser.'); return;
+                case 'rst': try { Object.assign(S, JSON.parse($('rs').value)); save(); return render() } catch (x) { $('dm').textContent = 'That backup could not be read.'; return }
+                case 'wipe': if (b.dataset.s) { try { localStorage.removeItem(K) } catch (x) { } location.reload(); return } b.dataset.s = 1; b.textContent = 'Click again to confirm'; return
+            }
+            save(); render()
+        }
+        render(); setInterval(tick, 50);
+        if (!S.seen) { $('ob').innerHTML = `<div class="ov"><div class="c" style="max-width:420px" role="dialog" aria-modal="true" aria-label="Welcome"><div class="big" style="font-size:44px">FOCUSLY</div><p class="mut">Focus Better. Achieve More.</p><p>Your private study space. Everything stays on this device.</p><label class="mut">What should we call you?<br><input id="on" style="width:100%" autofocus></label><p><button class="btn p" id="ok" style="width:100%">Get started</button></p></div></div>`; $('ok').onclick = () => { S.name = $('on').value.trim(); S.seen = true; save(); $('ob').innerHTML = ''; render() } }
+    </script>
+</body>
+
+</html>
